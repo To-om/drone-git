@@ -17,6 +17,8 @@ if [[ -n "${PLUGIN_SUBMODULE_OVERRIDE}" ]]; then
 fi
 
 git init
+git remote add origin ${DRONE_REMOTE_URL}
+
 case ${DRONE_BUILD_EVENT} in
 	pull_request)
 		echo cloning pull-request is not supported
