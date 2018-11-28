@@ -1,0 +1,32 @@
+#!/bin/bash
+
+set -e
+set -x
+
+sudo mkdir -p ${DRONE_WORKSPACE}
+sudo chown ${USER}:${USER} ${DRONE_WORKSPACE}
+cd ${DRONE_WORKSPACE}
+
+FLAGS=""
+if [[ -n "${PLUGIN_DEPTH}" ]]; then
+	FLAGS="--depth=${PLUGIN_DEPTH}"
+fi
+
+if [[ -n "${PLUGIN_SUBMODULE_OVERRIDE}" ]]; then
+	echo submodules : ${PLUGIN_SUBMODULE_OVERRIDE}
+fi
+
+case ${DRONE_BUILD_EVENT} in
+	pull_request)
+		echo cloning pull-request is not supported
+		exit 1
+		;;
+	tag)
+		git fetch ${FLAGS} origin +refs/tags/${DRONE_TAG}:
+		git checkout -qf FETCH_HEAD
+		;;
+	*)
+		git fetch ${FLAGS} origin +refs/heads/${DRONE_BRANCH}:
+		git checkout ${DRONE_COMMIT} -b ${DRONE_BRANCH}
+		;;
+esac
