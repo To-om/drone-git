@@ -4,7 +4,7 @@ set -e
 set -x
 
 sudo mkdir -p ${DRONE_WORKSPACE}
-sudo chown ${USER}:${USER} ${DRONE_WORKSPACE}
+sudo chown drone:drone ${DRONE_WORKSPACE}
 cd ${DRONE_WORKSPACE}
 
 FLAGS=""
