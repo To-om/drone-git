@@ -7,6 +7,12 @@ sudo mkdir -p ${DRONE_WORKSPACE}
 sudo chown drone:drone ${DRONE_WORKSPACE}
 cd ${DRONE_WORKSPACE}
 
+echo ======ENV=======
+env
+echo ======SET=======
+set
+echo ================
+
 FLAGS=""
 if [[ -n "${PLUGIN_DEPTH}" ]]; then
 	FLAGS="--depth=${PLUGIN_DEPTH}"
