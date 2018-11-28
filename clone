@@ -18,8 +18,11 @@ if [[ -n "${PLUGIN_DEPTH}" ]]; then
 	FLAGS="--depth=${PLUGIN_DEPTH}"
 fi
 
-if [[ -n "${PLUGIN_SUBMODULE_OVERRIDE}" ]]; then
+if [[ -n "${PLUGIN_SUBMODULE_OVERRIDE}" -a "${PLUGIN_SUBMODULE_OVERRIDE}" != "null" ]]; then
 	echo submodules : ${PLUGIN_SUBMODULE_OVERRIDE}
+	echo ${PLUGIN_SUBMODULE_OVERRIDE} | jq -r 'to_entries[] | "\(.key) \(.value)"' | while read MODULE URL; do
+	  git config submodule.${MODULE}.url ${URL}
+	done
 fi
 
 git init
